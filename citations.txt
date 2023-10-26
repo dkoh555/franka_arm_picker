@@ -1,0 +1,2 @@
+1. For finding models on Gazebo Fuel and loading them into my empty world: https://gazebosim.org/docs/citadel/fuel_insert
+2, 

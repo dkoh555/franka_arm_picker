@@ -1,0 +1,17 @@
+<launch>
+    <arg name="world" default="$(find-pkg-share diff_drive)/world/ddrive.world" />
+
+    <include file="$(find-pkg-share ros_gz_sim)/launch/gz_sim.launch.py">
+        <arg name="gz_args" value="$(var world)" />
+    </include>
+
+    <node pkg="ros_gz_sim" exec="create" args='-topic /robot_description -z 1.0'>
+        <!-- <param name="-name" value="ddrive"/> -->
+    </node>
+    
+    <node pkg="ros_gz_bridge" exec="parameter_bridge" args="/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry /cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist /joint_states@sensor_msgs/msg/JointState@gz.msgs.JointState /tf@geometry_msgs/TransformStamped@gz.msgs.TransformStamped" output="screen">
+    </node>
+    
+    <include file="$(find-pkg-share diff_drive)/launch/ddrive_rviz.launch.xml"/>
+
+</launch>
