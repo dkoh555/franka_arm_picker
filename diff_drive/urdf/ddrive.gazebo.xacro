@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ddrive">
+
+    <!-- loading in parameter file -->
+    <xacro:property name="yaml_file" value="$(find diff_drive)/config/ddrive.yaml" />
+    <xacro:property name="props" value="${xacro.load_yaml(yaml_file)['/**']['ros__parameters']}" />
+    
+    <!-- note: the caster is a sphere -->
+    <xacro:property name="caster_radius" value="${props['caster_radius']}"/>
+    <xacro:property name="base_length" value="${props['base_length']}"/>
+    <xacro:property name="base_width" value="${props['base_width']}"/>
+    <xacro:property name="base_height" value="${props['base_height']}"/>
+    <!-- dimension parameters of robot -->
+    <xacro:property name="wheel_radius" value="${props['wheel_radius']}"/>
+    <!-- mass parameters of robot -->
+    <xacro:property name="base_mass" value="${props['base_mass']}"/>
+    <xacro:property name="wheel_mass" value="${props['wheel_mass']}"/>
+    <xacro:property name="caster_mass" value="${props['caster_mass']}"/>
+    <!-- constant dimensions -->
+    <xacro:property name="wheel_thickness" value="0.2"/>
+
+    <!-- variables adaptive to parameters -->
+    <xacro:property name="wheel_seperation" value="${wheel_thickness + base_width}"/>
+
+    <gazebo>
+        <plugin name="ignition::gazebo::systems::DiffDrive" filename="libignition-gazebo-diff-drive-system.so">
+            <!-- wheel joints -->
+            <left_joint>l_wheel_joint</left_joint>
+            <right_joint>r_wheel_joint</right_joint>
+            <!-- required kinematic details -->
+            <wheel_seperation>${wheel_seperation}</wheel_seperation>
+            <wheel_radius>${wheel_radius}</wheel_radius>
+            <!-- topics of interest -->
+            <topic>cmd_vel</topic>
+            <odom_topic>odom</odom_topic>
+            <tf_topic>tf</tf_topic>
+        </plugin>
+        <plugin name="ignition::gazebo::systems::JointStatePublisher" filename="libignition-gazebo-joint-state-publisher-system.so">
+            <topic>joint_states</topic>
+        </plugin>
+    </gazebo>
+
+</robot>

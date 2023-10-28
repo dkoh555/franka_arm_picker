@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ddrive">
 
+    <!-- include the gazebo xacro file -->
+    <xacro:include filename="$(find diff_drive)/ddrive.gazebo.xacro" />
     <!-- loading in parameter file -->
     <xacro:property name="yaml_file" value="$(find diff_drive)/config/ddrive.yaml" />
     <xacro:property name="props" value="${xacro.load_yaml(yaml_file)['/**']['ros__parameters']}" />
@@ -19,10 +21,17 @@
     <!-- constant dimensions -->
     <xacro:property name="wheel_thickness" value="0.2"/>
 
-    <!-- variables adaptive to parameters -->
-    <xacro:property name="stem_height" value="${wheel_radius}"/>
-    <xacro:property name="cylinder_height" value="${platform_height - (wheel_radius + stem_height + base_length + platform_thickness)}"/>
+    <!-- the odom link and joint -->
+    <!-- displacement in z chosen to mirror that of the robot being spawned in gazebo -->
+    <link name="odom">
+    </link>
 
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0 0 1" rpy="0 0 0"/>
+        <parent link="odom"/>
+        <child link="base_link"/>
+    </joint>
+    
     <!-- the robot base_link -->
     <link name="base_link">
         <visual>

@@ -71,6 +71,41 @@
       <name>asphalt_plane</name>
       <pose>-0.081382 0.036726 0 0 -0 0</pose>
     </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/cardboard box/3</uri>
+      <name>cardboard_box</name>
+      <pose>0.995394 -4.95427 0.15 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/cardboard box/3</uri>
+      <name>cardboard_box_0</name>
+      <pose>-3.5455 5.19645 0.15 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/cardboard box/3</uri>
+      <name>cardboard_box_1</name>
+      <pose>-6.20673 -4.02507 0.15 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/jersey barrier/6</uri>
+      <name>jersey_barrier</name>
+      <pose>-2.88191 -4.67488 0 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/jersey barrier/6</uri>
+      <name>jersey_barrier_0</name>
+      <pose>0.483699 5.54553 0 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/standard toilet/1</uri>
+      <name>Toilet</name>
+      <pose>-4.36793 3.18423 0 0 -0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/damien/.ignition/fuel/fuel.gazebosim.org/openrobotics/models/dining table/1</uri>
+      <name>DiningTable</name>
+      <pose>4.39178 -1.04052 0 0 -0 0</pose>
+    </include>
     <light name='sun' type='directional'>
       <pose>0 0 10 0 -0 0</pose>
       <cast_shadows>true</cast_shadows>
