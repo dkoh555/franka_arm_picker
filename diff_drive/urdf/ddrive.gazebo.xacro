@@ -34,9 +34,12 @@
             <topic>cmd_vel</topic>
             <odom_topic>odom</odom_topic>
             <tf_topic>tf</tf_topic>
+            <!-- frame ids -->
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
         </plugin>
         <plugin name="ignition::gazebo::systems::JointStatePublisher" filename="libignition-gazebo-joint-state-publisher-system.so">
-            <topic>joint_states</topic>
+            <topic>/joint_states</topic>
         </plugin>
     </gazebo>
 

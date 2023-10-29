@@ -23,15 +23,15 @@
 
     <!-- the odom link and joint -->
     <!-- displacement in z chosen to mirror that of the robot being spawned in gazebo -->
-    <link name="odom">
-    </link>
+    <!-- <link name="odom">
+    </link> -->
 
-    <joint name="base_joint" type="fixed">
-        <origin xyz="0 0 1" rpy="0 0 0"/>
+    <!-- <joint name="base_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <parent link="odom"/>
         <child link="base_link"/>
     </joint>
-    
+     -->
     <!-- the robot base_link -->
     <link name="base_link">
         <visual>
@@ -60,7 +60,7 @@
 
     <!-- the l_wheel (left wheel) joint and link -->
     <joint name="l_wheel_joint" type="continuous">
-        <origin xyz="${base_length/4} ${base_width/2} ${base_height/2}" rpy="1.57079632679 0 0"/>
+        <origin xyz="${base_length/4} ${base_width/2} ${base_height/2}" rpy="-1.57079632679 0 0"/>
         <parent link="base_link"/>
         <child link="l_wheel_link"/>
         <axis xyz="0 0 1"/>
@@ -69,7 +69,7 @@
 
     <link name="l_wheel_link"   >
         <visual>
-            <origin xyz="0 0 -${wheel_thickness/2}" rpy="0 0 0"/>
+            <origin xyz="0 0 ${wheel_thickness/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}"/>
             </geometry>
@@ -78,8 +78,9 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0 -${wheel_thickness/2}" rpy="0 0 0"/>
+            <origin xyz="0 0 ${wheel_thickness/2}" rpy="0 0 0"/>
             <geometry>
+
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}"/>
             </geometry>
             <material name="orange">
@@ -94,7 +95,7 @@
 
     <!-- the r_wheel (right wheel) joint and link -->
     <joint name="r_wheel_joint" type="continuous">
-        <origin xyz="${base_length/4} -${base_width/2} ${base_height/2}" rpy="1.57079632679 0 0"/>
+        <origin xyz="${base_length/4} -${base_width/2} ${base_height/2}" rpy="-1.57079632679 0 0"/>
         <parent link="base_link"/>
         <child link="r_wheel_link"/>
         <axis xyz="0 0 1"/>
@@ -103,7 +104,7 @@
 
     <link name="r_wheel_link">
         <visual>
-            <origin xyz="0 0 ${wheel_thickness/2}" rpy="0 0 0"/>
+            <origin xyz="0 0 -${wheel_thickness/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}"/>
             </geometry>
@@ -112,7 +113,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0 ${wheel_thickness/2}" rpy="0 0 0"/>
+            <origin xyz="0 0 -${wheel_thickness/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}"/>
             </geometry>
