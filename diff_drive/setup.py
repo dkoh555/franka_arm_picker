@@ -30,7 +30,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'test_node = diff_drive.test_node:main'
+            'flip = diff_drive.flip:flip_entry',
         ],
     },
 )
