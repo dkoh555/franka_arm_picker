@@ -18,8 +18,9 @@
     <xacro:property name="base_mass" value="${props['base_mass']}"/>
     <xacro:property name="wheel_mass" value="${props['wheel_mass']}"/>
     <xacro:property name="caster_mass" value="${props['caster_mass']}"/>
+    <xacro:property name="wheel_thickness" value="${props['wheel_thickness']}"/>
     <!-- constant dimensions -->
-    <xacro:property name="wheel_thickness" value="0.2"/>
+    <!-- <xacro:property name="wheel_thickness" value="0.2"/> -->
 
     <!-- the odom link and joint -->
     <!-- displacement in z chosen to mirror that of the robot being spawned in gazebo -->
@@ -55,9 +56,7 @@
         <inertial>
             <origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
             <mass value="${base_mass}"/>
-            <inertia ixx="${(1/12)*(base_mass)*(base_width**2+base_height**2)}" ixy="0.0" ixz="0.0" iyy="${(1/12)*(base_mass)*(base_height**2+base_length**2)}" iyz="0.0" izz="${(1/12)*(base_mass)*(base_width**2+base_length**2)}"/>
-            <!-- <inertia ixx="${(1/12)*(base_mass)*(base_width**2+base_length**2)}" ixy="0.0" ixz="0.0" iyy="${(1/12)*(base_mass)*(base_height**2+base_length**2)}" iyz="0.0" izz="${(1/12)*(base_mass)*(base_width**2+base_height**2)}"/> -->
-            <!-- <inertia ixx="${(1/12)*(base_mass)*(base_height**2+base_length**2)}" ixy="0.0" ixz="0.0" iyy="${(1/12)*(base_mass)*(base_width**2+base_length**2)}" iyz="0.0" izz="${(1/12)*(base_mass)*(base_width**2+base_height**2)}"/> -->
+            <inertia ixx="${(1/12)*(base_mass)*(base_width**2+base_height**2)}" ixy="0.0" ixz="0.0" iyy="${(1/12)*(base_mass)*(base_height**2+base_length**2)}" iyz="0.0" izz="${(1/12)*(base_mass)*(base_width**2+base_length**2)}"/>    
         </inertial>
     </link>
 
@@ -67,7 +66,7 @@
         <parent link="base_link"/>
         <child link="l_wheel_link"/>
         <axis xyz="0 0 1"/>
-        <limit effort="1000.0" velocity="0.5"/>
+        <limit effort="1000.0" velocity="1000.0"/>
     </joint>
 
     <link name="l_wheel_link"   >
@@ -110,7 +109,7 @@
         <parent link="base_link"/>
         <child link="r_wheel_link"/>
         <axis xyz="0 0 1"/>
-        <limit effort="1000.0" velocity="0.5"/>
+        <limit effort="1000.0" velocity="1000.0"/>
     </joint>
 
     <link name="r_wheel_link">

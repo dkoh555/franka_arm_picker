@@ -78,26 +78,26 @@ class Flip(Node):
         # Declare and get the following parameters: platform_height,
         # wheel_radius, max_velocity, gravity_accel
         self.declare_parameter(
-            "frequency",
-            50.0,
-            ParameterDescriptor(
-                description="The height between the turtle robot's platform and the ground"
-            ),
-        )
-        self.declare_parameter(
             "count_before_flip",
-            100.0,
+            300.0,
             ParameterDescriptor(description="The radius of the turtle robot's wheel"),
         )
         self.count_before_flip = (
             self.get_parameter("count_before_flip").get_parameter_value().double_value
+        )
+        self.declare_parameter(
+            "frequency",
+            100.0,
+            ParameterDescriptor(
+                description="The height between the turtle robot's platform and the ground"
+            ),
         )
         self.frequency = (
             self.get_parameter("frequency").get_parameter_value().double_value
         )
         self.declare_parameter(
             "normal_speed",
-            10.0,
+            0.1,
             ParameterDescriptor(
                 description="The height between the turtle robot's platform and the ground"
             ),
@@ -107,7 +107,7 @@ class Flip(Node):
         )
         self.declare_parameter(
             "fast_speed",
-            50.0,
+            2.0,
             ParameterDescriptor(description="The radius of the turtle robot's wheel"),
         )
         self.fast_speed = (
@@ -154,14 +154,18 @@ class Flip(Node):
 
         # Flip the robot every self.seconds_before_flip seconds
         # Go slow for the first 3 seconds, then speed up for the remaining time
-        if (self.count % self.count_before_flip) <= (self.count_before_flip - 20):
-            self.state = state.NORMAL
-        if (self.count % self.count_before_flip) >= (self.count_before_flip - 20):
-            self.state = state.FAST
+        # if (self.count % self.count_before_flip) <= (self.count_before_flip - 100):
+        #     self.state = state.NORMAL
+        # if (self.count % self.count_before_flip) >= (self.count_before_flip - 100):
+        #     self.state = state.FAST
+
+        self.state = state.FAST
+
         # When self.seconds_before_flip seconds is up, flip the robot movement direction
         if round(self.count % self.count_before_flip) == 0:
             self.get_logger().info('Changing direction')
             self.direction_modifier *= -1
+        # self.state = state.FAST
 
         self.get_logger().info('Direction modifier: "%s"' % self.direction_modifier)
         move_msg.linear.x *= self.direction_modifier
