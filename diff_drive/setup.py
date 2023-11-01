@@ -18,6 +18,8 @@ setup(
             glob(os.path.join('world', '*world*'))),
         (os.path.join('share', package_name), glob('urdf/*')),
         ('share/' + package_name + '/config/', ['config/ddrive.yaml']),
+        ('share/' + package_name + '/config/', ['config/ddrive_rviz.rviz']),
+        ('share/' + package_name + '/config/', ['config/ddrive.rviz']),
         # ('share/' + package_name, ['config/ddrive.yaml']),
         # ('share/' + package_name, ['config/ddrive_rviz.yaml']),
     ],
