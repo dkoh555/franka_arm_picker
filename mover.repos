@@ -1,0 +1,9 @@
+repositories:
+  homework3group-dkoh555:
+    type: git
+    url: git@github.com:ME495-EmbeddedSystems/homework3group-dkoh555.git
+    version: main
+  homework3group-nu-jliu:
+    type: git
+    url: git@github.com:ME495-EmbeddedSystems/homework3group-nu-jliu.git
+    version: main
