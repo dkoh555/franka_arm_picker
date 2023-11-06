@@ -6,7 +6,7 @@
 
     <!-- launch the robot_state_publisher, with the turtle robot xacro loaded -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" exec="robot_state_publisher">
-        <param name="robot_description" value="$(command '$(exec-in-pkg xacro xacro) $(find-pkg-share diff_drive)/ddrive.urdf.xacro')"/>
+        <param name="robot_description" value="$(command '$(exec-in-pkg xacro xacro) $(find-pkg-share diff_drive)/urdf/ddrive.urdf.xacro')"/>
     </node>
 
     <!-- launch rviz -->
