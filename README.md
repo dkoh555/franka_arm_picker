@@ -16,6 +16,8 @@ For the `pickmeup` package to be used properly, our group's `motion_plan_pkg` wi
 
 Here is a video of the flipping diff_drive simulation running in Gazebo:
 
+[flip_gazebo.webm](https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/e3e66b39-a0ae-4b3d-9262-d0ebbe80d854)
+
 ## pickmeup
 
 ### Package Setup
@@ -25,3 +27,7 @@ Here is a video of the flipping diff_drive simulation running in Gazebo:
 ### Additional Commands
 
 ### Videos
+
+https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/accaa9c1-f210-46bf-8ed7-174e0c581174
+
+[arm_fake_mode.webm](https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/6ca3d120-c343-4d1e-8788-496cd8be1b8e)
