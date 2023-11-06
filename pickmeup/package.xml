@@ -12,11 +12,7 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
-  <build_depend>motion_plan_pkg</build_depend>
-  <exec_depend>motion_plan_pkg</exec_depend>
-
-  <build_depend>franka_msgs</build_depend>
-  <exec_depend>franka_msgs</exec_depend>
+  <depend>motion_plan_pkg</depend>
 
   <export>
     <build_type>ament_python</build_type>

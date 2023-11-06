@@ -1,15 +1,19 @@
 import rclpy
 from rclpy.node import Node
 import math
-from geometry_msgs.msg import TransformStamped, PoseStamped, Twist, Pose
+from geometry_msgs.msg import Pose
 from moveit_msgs.srv import GetPositionIK_Response
 from rcl_interfaces.msg import ParameterDescriptor
-from motion_plan_pkg.move_robot import MoveRobot # This should be "from move_robot import MoveRobot"
+from motion_plan_pkg.move_robot import (
+    MoveRobot
+)  # This should be "from move_robot import MoveRobot"
+from motion_plan_pkg.move_robot import State as MOVEROBOT_STATE
 from geometry_msgs.msg import Point, Quaternion
 from rclpy.callback_groups import ReentrantCallbackGroup
 from shape_msgs.msg import SolidPrimitive
 
 from enum import Enum, auto
+
 
 class State(Enum):
     """
@@ -18,11 +22,12 @@ class State(Enum):
     Determines what the main timer function should be doing on each iteration
     """
 
-    ADDBOX = auto(), # Add a box to the environment
-    REMOVEBOX = auto(), # Remove a box from the environment
-    MOVEARM = auto(), # Move the arm to a new position
-    GRIPPER = auto(), # Move the gripper to a new configuration
-    DONE = auto() # Do nothing
+    ADDBOX = (auto(),)  # Add a box to the environment
+    REMOVEBOX = (auto(),)  # Remove a box from the environment
+    MOVEARM = (auto(),)  # Move the arm to a new position
+    GRIPPER = (auto(),)  # Move the gripper to a new configuration
+    DONE = auto()  # Do nothing
+
 
 class PickerNode(Node):
     """Central interface between turtlesim and other ROS programs"""
@@ -36,9 +41,9 @@ class PickerNode(Node):
             ParameterDescriptor(description="Name of the move group"),
         )
         self.declare_parameter(
-            "ee_frame_id", 
-            "panda_hand_tcp", 
-            ParameterDescriptor(description="Name of the e-e frame")
+            "ee_frame_id",
+            "panda_hand_tcp",
+            ParameterDescriptor(description="Name of the e-e frame"),
         )
 
         self.move_group_name = (
@@ -46,14 +51,21 @@ class PickerNode(Node):
         )
 
         self.ee_frame_id = (
-            self.get_parameter('ee_frame_id').get_parameter_value().string_value
+            self.get_parameter("ee_frame_id").get_parameter_value().string_value
         )
 
         self.ee_frame_id = "panda_hand_tcp"
+
+        # Fake or Real Mode
+        self.declare_parameter(
+            "fake_mode",
+            True,
+            ParameterDescriptor(
+                description="Axis that the end effector will rotate around"
+            ),
+        )
+        self.fake_mode = self.get_parameter("fake_mode").get_parameter_value().bool_value
         
-
-        self.robot = MoveRobot(self, self.move_group_name, self.ee_frame_id)
-
         # Position
         self.declare_parameter(
             "goal_x", 0.5, ParameterDescriptor(description="X coordinate goal")
@@ -75,29 +87,51 @@ class PickerNode(Node):
         self.declare_parameter(
             "rotation_axis",
             [1.0, 0.0, 0.0],
-            ParameterDescriptor(description="Axis that the end effector will rotate around"),
+            ParameterDescriptor(
+                description="Axis that the end effector will rotate around"
+            ),
         )
         self.theta = self.get_parameter("theta").get_parameter_value().double_value
         self.rotation_axis = (
             self.get_parameter("rotation_axis").get_parameter_value().double_array_value
         )
-        
-        self.declare_parameter('keep_pos', False, ParameterDescriptor(description='If keepting the curremt pose'))
-        self.declare_parameter('keep_ori', False, ParameterDescriptor(description='If keeping the current orientation'))
+
+        self.declare_parameter(
+            "keep_pos",
+            False,
+            ParameterDescriptor(description="If keepting the curremt pose"),
+        )
+        self.declare_parameter(
+            "keep_ori",
+            False,
+            ParameterDescriptor(description="If keeping the current orientation"),
+        )
+
+        self.robot = MoveRobot(self, self.move_group_name, self.fake_mode, self.ee_frame_id)
 
         # self.keep_pos = self.get_parameter('keep_pos').get_parameter_value().bool_value
         # self.keep_ori = self.get_parameter('keep_ori').get_parameter_value().bool_value
 
         self.posittion: Point = None
         self.orientation: Quaternion = None
-        
+
         self.cb_group = ReentrantCallbackGroup()
-        self.timer = self.create_timer(1/100, self.timer_callback, callback_group=self.cb_group)
+        self.timer = self.create_timer(
+            1 / 100, self.timer_callback, callback_group=self.cb_group
+        )
 
         # For sequential Pos commands
         self.comm_count = 0
-        self.pos_list = [Point(x=self.goal_x, y=self.goal_y, z=self.goal_z), Point(x=0.2, y=0.4, z=0.2), Point(x=0.5,y=0.0,z=0.4)]
-        self.ori_list = [self.robot.angle_axis_to_quaternion(self.theta, self.rotation_axis), Quaternion(x=1.0, y=0.0, z=0.0, w=0.0), Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)]
+        self.pos_list = [
+            Point(x=self.goal_x, y=self.goal_y, z=self.goal_z),
+            Point(x=0.2, y=0.4, z=0.2),
+            Point(x=0.5, y=0.0, z=0.4),
+        ]
+        self.ori_list = [
+            self.robot.angle_axis_to_quaternion(self.theta, self.rotation_axis),
+            Quaternion(x=1.0, y=0.0, z=0.0, w=0.0),
+            Quaternion(x=1.0, y=0.0, z=0.0, w=0.0),
+        ]
 
         self.state = State.ADDBOX
         self.grasp_called = False
@@ -115,21 +149,23 @@ class PickerNode(Node):
                 # point.z = self.goal_z
 
                 # find orientation in quaternion
-                # quat = self.robot.angle_axis_to_quaternion(self.theta, self.rotation_axis) 
-                self.get_logger().info('Publishing command no.%s' % self.comm_count)
-                self.robot.find_and_execute(point=self.pos_list[self.comm_count], quat=self.ori_list[self.comm_count])
-
+                # quat = self.robot.angle_axis_to_quaternion(self.theta, self.rotation_axis)
+                self.get_logger().info("Publishing command no.%s" % self.comm_count)
+                self.robot.find_and_execute(
+                    point=self.pos_list[self.comm_count],
+                    quat=self.ori_list[self.comm_count],
+                )
 
             elif self.robot.state == MOVEROBOT_STATE.DONE:
                 self.get_logger().info("Done moving arm")
                 self.comm_count += 1
-                self.get_logger().info('comm_count:%s' % self.comm_count)
-                if self.comm_count == 1:
+                self.get_logger().info("comm_count:%s" % self.comm_count)
+                if self.comm_count == 1 and not self.fake_mode:
                     self.get_logger().info("Executing close gripper", once=True)
                     self.state = State.GRIPPER
                     # self.comm_count += 1
                     self.robot.grasp()
-                elif self.comm_count == 2:
+                elif self.comm_count == 2 and not self.fake_mode:
                     self.get_logger().info("Executing open gripper", once=True)
                     self.state = State.GRIPPER
                     # self.comm_count += 1
@@ -157,7 +193,7 @@ class PickerNode(Node):
         elif self.state == State.ADDBOX:
             if self.robot.state == MOVEROBOT_STATE.WAITING:
                 self.get_logger().info("add box", once=True)
-            
+
                 # Add a box to environment
                 name = "box_0"
                 pose = Pose()
@@ -175,7 +211,7 @@ class PickerNode(Node):
         elif self.state == State.REMOVEBOX:
             if self.robot.state == MOVEROBOT_STATE.WAITING:
                 self.get_logger().info("add box", once=True)
-            
+
                 # Remove a box to environment
                 name = "box_0"
                 self.robot.remove_box(name=name)
@@ -183,7 +219,7 @@ class PickerNode(Node):
             elif self.robot.state == MOVEROBOT_STATE.DONE:
                 self.robot.state = MOVEROBOT_STATE.WAITING
                 self.state = State.DONE
-            
+
             elif self.state == State.GRASP:
                 if self.robot.state == MOVEROBOT_STATE.WAITING:
                     if not self.grasp_called:
@@ -193,9 +229,6 @@ class PickerNode(Node):
                     self.robot.state = MOVEROBOT_STATE.WAITING
                     self.state = State.DONE
                     self.grasp_called = False
-
-
-
 
 
 def picker_entry(args=None):
