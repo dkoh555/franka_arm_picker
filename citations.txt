@@ -1,5 +1,4 @@
-Collaborated with: 
+Collaborated with: Ishani, Megan, Henry, Kassiy, Allen
 
 1. For finding models on Gazebo Fuel and loading them into my empty world: https://gazebosim.org/docs/citadel/fuel_insert
 2. For including the .gazebo.xacro file with the .urdf.xacro file: https://www.theconstructsim.com/how-to-use-xacro-in-ros2-gazebo/
-3. 
