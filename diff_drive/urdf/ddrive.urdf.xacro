@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ddrive">
 
     <!-- include the gazebo xacro file -->
-    <xacro:include filename="$(find diff_drive)/ddrive.gazebo.xacro" />
+    <xacro:include filename="$(find diff_drive)/urdf/ddrive.gazebo.xacro" />
     <!-- loading in parameter file -->
     <xacro:property name="yaml_file" value="$(find diff_drive)/config/ddrive.yaml" />
     <xacro:property name="props" value="${xacro.load_yaml(yaml_file)['/**']['ros__parameters']}" />
