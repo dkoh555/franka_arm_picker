@@ -1,6 +1,12 @@
 <launch>
     <!-- determines whether the fake or real arm is being controlled -->
     <arg name="fake_mode" default="true"/>
+    <!-- coordinates to determine where the arm reaches to pick up an object -->
+    <!-- by default, it reaches right in front of it -->
+    <arg name="x" default="0.5"/>
+    <arg name="y" default="0.0"/>
+    <arg name="z" default="0.05"/>
+
 
     <!-- if fake_mode is being launched -->
     <group if="$(var fake_mode)">
@@ -13,9 +19,9 @@
             name="picker" 
             pkg="pickmeup"
             exec="picker">
-            <param name="goal_x" value="0.5" />
-            <param name="goal_y" value="0.0" />
-            <param name="goal_z" value="0.05" />
+            <param name="goal_x" value="$(var x)" />
+            <param name="goal_y" value="$(var y)" />
+            <param name="goal_z" value="$(var z)" />
         </node>
     </group>
 
