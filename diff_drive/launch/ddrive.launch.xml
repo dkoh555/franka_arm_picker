@@ -9,6 +9,12 @@
     
     <node pkg="ros_gz_bridge" exec="parameter_bridge" args="/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry /cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist /tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V /joint_states@sensor_msgs/msg/JointState@gz.msgs.Model">
     </node>
+
+    <node 
+        name="flip_node" 
+        pkg="diff_drive"
+        exec="flip">
+    </node>
     
     <include file="$(find-pkg-share diff_drive)/launch/ddrive_rviz.launch.xml">
         <arg name="view_only" value="false" />
