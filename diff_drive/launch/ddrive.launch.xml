@@ -18,7 +18,6 @@
     
     <include file="$(find-pkg-share diff_drive)/launch/ddrive_rviz.launch.xml">
         <arg name="view_only" value="false" />
-        <arg name="rviz_config" value="ddrive" />
     </include>
 
 </launch>
