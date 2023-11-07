@@ -8,11 +8,13 @@ PARAMETERS:
     move_group_name (string) - Name of the robot arm move group
     ee_frame_id (string) - Name of the robot arm end-effector frame
     fake_mode (bool) - The maximum velocity of the turtle robot
-    gravity_accel (double) - The acceleration caused by gravity
-    platform_radius (double) - The platform radius of the turtle robot
-    frequency (double) - The frequency in which the timer_callback is run
+    goal_x (double) - X coordinate goal for pickup
+    goal_y (double) - Y coordinate goal for pickup
+    goal_z (double) - Z coordinate goal for pickup
     tolerance (double) - The proximity in which the turtle needs to be
         to a waypoint to classify as arrived
+    theta (double) - The platform radius of the turtle robot
+    rotation_axis (double_array) - The platform radius of the turtle robot
 
 """
 
