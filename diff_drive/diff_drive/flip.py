@@ -20,8 +20,9 @@ from geometry_msgs.msg import Twist
 
 
 class Flip(Node):
-    """Central interface between turtlesim and other ROS programs"""
-
+    """Controls the differential robot, ensuring it goes in the correct
+    velocity at the right time to periodically flip
+    """
     def __init__(self):
         # Initialize the node
         super().__init__("flip")
