@@ -32,7 +32,11 @@ Here are some examples:
 
 https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/accaa9c1-f210-46bf-8ed7-174e0c581174
 
-2. Here is a video demonstrating the `pickmeup` package working on a virtual Franka Panda in rviz:
+2. Here is a video demonstrating the `pickmeup` package working on a real Franka Panda arm with rviz:
+
+https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/e600d479-f02e-49f8-9d5d-27308f64631e
+
+3. Here is a video demonstrating the `pickmeup` package working on a virtual Franka Panda in rviz:
 
 [arm_fake_mode.webm](https://github.com/ME495-EmbeddedSystems/homework3group-dkoh555/assets/107823507/6ca3d120-c343-4d1e-8788-496cd8be1b8e)
 
