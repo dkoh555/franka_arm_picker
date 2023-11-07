@@ -3,7 +3,7 @@
 <package format="3">
   <name>diff_drive</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>A Gazebo simulation for a flipping differential drive robot</description>
   <maintainer email="damienkoh2025@u.northwestern.edu">damien</maintainer>
   <license>Apache-2.0</license>
 

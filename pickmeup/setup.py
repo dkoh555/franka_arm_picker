@@ -19,8 +19,8 @@ setup(
     zip_safe=True,
     maintainer='damien',
     maintainer_email='damienkoh2025@u.northwestern.edu',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Control a Franka Panda arm to pick up and drop an object',
+    license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
