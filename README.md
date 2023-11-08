@@ -1,4 +1,4 @@
-# ME495 Embedded Systems Homework 3
+# ME495: Franka Arm Picker Robot
 Author: Damien Koh
 
 ## Repository Description
